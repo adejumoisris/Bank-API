@@ -5,6 +5,9 @@ import com.example.bankapi.model.Account;
 import com.example.bankapi.model.Transaction;
 import com.example.bankapi.repository.AccountRepository;
 import com.example.bankapi.repository.TransactionRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,6 +18,8 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
+    private static final Logger log = LoggerFactory.getLogger(AccountService.class);
+
 
     public AccountService(AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
@@ -22,8 +27,13 @@ public class AccountService {
     }
 
     public BigDecimal getBalance(String accountNumber) {
+        log.info("Getting balance for account {}", accountNumber);
         Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new AccountNotFoundException("Account not Found for account number: " + accountNumber));
+                .orElseThrow(() -> {
+                        log.warn("Account not found: {}", accountNumber);
+                      return   new AccountNotFoundException("Account not Found for account number: " + accountNumber);
+                });
+        log.info("Account balance: {}", account.getBalance());
         return account.getBalance();
     }
 
