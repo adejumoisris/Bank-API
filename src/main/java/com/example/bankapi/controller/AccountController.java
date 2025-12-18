@@ -3,6 +3,7 @@ package com.example.bankapi.controller;
 import com.example.bankapi.model.Account;
 import com.example.bankapi.model.Transaction;
 import com.example.bankapi.service.AccountService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +24,10 @@ public class AccountController {
     }
 
     @GetMapping("/{accountNumber}/balance")
-    public BigDecimal getBalance(@PathVariable String accountNumber) {
-        return accountService.getBalance(accountNumber);
+    public BigDecimal getBalance(@PathVariable String accountNumber, HttpServletRequest request) {
+        String userId = "anonymous";
+        String ipAddress = request.getRemoteAddr();
+        return accountService.getBalance(accountNumber, userId, ipAddress );
     }
 
     @GetMapping("/{accountNumber}")
