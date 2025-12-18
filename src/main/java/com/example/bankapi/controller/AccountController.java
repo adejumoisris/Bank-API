@@ -14,9 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/accounts")
-@RequiredArgsConstructor
+
 public class AccountController {
     private final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @GetMapping("/{accountNumber}/balance")
     public BigDecimal getBalance(@PathVariable String accountNumber) {
