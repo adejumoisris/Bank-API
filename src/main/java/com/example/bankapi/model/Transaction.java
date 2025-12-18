@@ -22,8 +22,9 @@ public class Transaction {
     private LocalDateTime createdAt;
 
 
-    public Transaction(Long id, BigDecimal amount, String transactionType, String description, BigDecimal transactionBefore, BigDecimal transactionAfter, LocalDateTime createdAt) {
+    public Transaction(Long id,Account account, BigDecimal amount, String transactionType, String description, BigDecimal transactionBefore, BigDecimal transactionAfter, LocalDateTime createdAt) {
         this.id = id;
+        this.account = account;
         this.amount = amount;
         this.transactionType = transactionType;
         this.description = description;
@@ -41,6 +42,14 @@ public class Transaction {
 
     public Long getId() {
         return id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public BigDecimal getAmount() {
