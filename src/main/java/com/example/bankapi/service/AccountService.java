@@ -1,12 +1,12 @@
 package com.example.bankapi.service;
 
+import com.example.bankapi.exceptions.AccountNotFoundException;
 import com.example.bankapi.model.Account;
 import com.example.bankapi.model.Transaction;
 import com.example.bankapi.repository.AccountRepository;
 import com.example.bankapi.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class AccountService {
 
     public BigDecimal getBalance(String accountNumber) {
         Account account = accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(() -> new RuntimeException("Account not Found"));
+                .orElseThrow(() -> new AccountNotFoundException("Account not Found for account number: " + accountNumber));
         return account.getBalance();
     }
 
